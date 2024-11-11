@@ -4,9 +4,10 @@ import React from "react";
 export function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg bg-white border-bottom box-shadow ">
-      <div className="container-fluid">
+      <div className="container">
         <a className="navbar-brand" href="#section">
-          Navbar
+          <img src="/icon.png" alt="..." width="30" className="me-2" />
+          AgriHub
         </a>
         <button
           className="navbar-toggler"
@@ -23,7 +24,7 @@ export function Navbar() {
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <a
-                className="nav-link active"
+                className="nav-link text-dark"
                 aria-current="page"
                 href="#section"
               >
@@ -31,64 +32,55 @@ export function Navbar() {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#section">
-                Link
-              </a>
-            </li>
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#section"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Dropdown
-              </a>
-              <ul className="dropdown-menu">
-                <li>
-                  <a className="dropdown-item" href="#section">
-                    Action
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#section">
-                    Another action
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#section">
-                    Something else here
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li className="nav-item">
-              <a
-                className="nav-link disabled"
-                aria-disabled="true"
-                href="#section"
-              >
-                Disabled
+              <a className="nav-link" text-dark href="#section">
+                Contact
               </a>
             </li>
           </ul>
-          <form className="d-flex" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-success" type="submit">
-              Search
-            </button>
-          </form>
+          <ul className="navbar-nav"></ul>
+          <li className="nav-item dropdown">
+            <a
+              className="nav-link dropdown-toggle text-dark"
+              href="#section"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Admin
+            </a>
+            <ul className="dropdown-menu">
+              <li>
+                <a className="dropdown-item" href="#section">
+                  Product
+                </a>
+              </li>
+              <li>
+                <a className="dropdown-item" href="#section">
+                  Profile
+                </a>
+              </li>
+              <li>
+                <hr className="dropdown-divider" />
+              </li>
+              <li>
+                <a className="dropdown-item" href="#section">
+                  Log Out
+                </a>
+              </li>
+            </ul>
+          </li>
         </div>
       </div>
     </nav>
+  );
+}
+
+export function Footer() {
+  return (
+    <div className="text-center b-4 border-top">
+      {" "}
+      <img src="/icon.png" alt="..." width="30" className="me-2" />
+      AgriHub
+    </div>
   );
 }

@@ -1,12 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Navbar } from "./components/layout";
+import { Footer, Navbar } from "./components/layout";
+import Home from "./pages/Home";
 
 function App() {
   return (
     <>
       <Navbar />
-      <h2>Welcome to our website</h2>
+      <Home />
+      <Footer />
     </>
   );
 }
