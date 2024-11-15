@@ -1,0 +1,337 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Arabica Coffee",
+      "brand": "Mount Kenya",
+      "category": "Other",
+      "price": 850,
+      "description": "Premium grade Arabica coffee beans grown at high altitude in Mount Kenya region, known for rich flavor and medium acidity.Yes",
+      "imageFilename": "arabica_coffee.jpg",
+      "createAt": "2024-01-13T17:46:54.890000",
+      "updatedAt": "2024-11-15T23:42:58.003Z"
+    },
+    {
+      "id": 2,
+      "name": "Black Tea",
+      "brand": "Kericho Gold",
+      "category": "Cash Crops",
+      "price": 450,
+      "description": "Premium black tea leaves harvested from the lush Kericho highlands, perfect for traditional or milk tea",
+      "imageFilename": "black_tea.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 3,
+      "name": "Green Maize",
+      "brand": "Rift Valley Fresh",
+      "category": "Cereals",
+      "price": 180,
+      "description": "Fresh green maize grown in the fertile Rift Valley region, ideal for roasting or boiling",
+      "imageFilename": "green_maize.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 4,
+      "name": "Macadamia Nuts",
+      "brand": "Embu Farms",
+      "category": "Nuts",
+      "price": 1200,
+      "description": "Premium grade macadamia nuts from Embu county, carefully processed and packed for maximum freshness",
+      "imageFilename": "macadamia.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 5,
+      "name": "Hass Avocados",
+      "brand": "Murang'a Fresh",
+      "category": "Fruits",
+      "price": 320,
+      "description": "Premium Hass avocados grown in Murang'a county, known for their creamy texture and rich flavor",
+      "imageFilename": "avocado.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 6,
+      "name": "Purple Tea",
+      "brand": "Nandi Hills",
+      "category": "Cash Crops",
+      "price": 750,
+      "description": "Unique purple tea variety rich in anthocyanins, grown in the high altitudes of Nandi Hills",
+      "imageFilename": "purple_tea.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 7,
+      "name": "Green Grams",
+      "brand": "Kitui Farmers",
+      "category": "Legumes",
+      "price": 280,
+      "description": "Drought-resistant green grams from Kitui region, high in protein and dietary fiber",
+      "imageFilename": "green_grams.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 8,
+      "name": "Sweet Potatoes",
+      "brand": "Kakamega Best",
+      "category": "Tubers",
+      "price": 150,
+      "description": "Orange-fleshed sweet potatoes rich in vitamin A, grown in the fertile soils of Western Kenya",
+      "imageFilename": "sweet_potatoes.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 9,
+      "name": "Passion Fruits",
+      "brand": "Kisii Highlands",
+      "category": "Other",
+      "price": 20,
+      "description": "Sweet and tangy passion fruits from the Kisii Highlands, perfect for juicing",
+      "imageFilename": "1731714203490.png",
+      "createAt": "2024-01-13T17:46:54.890000",
+      "updatedAt": "2024-11-15T23:43:37.743Z"
+    },
+    {
+      "id": 10,
+      "name": "French Beans",
+      "brand": "Limuru Fresh",
+      "category": "Vegetables",
+      "price": 200,
+      "description": "Export-quality French beans grown in the cool climate of Limuru",
+      "imageFilename": "french_beans.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 11,
+      "name": "Pineapples",
+      "brand": "Thika Gold",
+      "category": "Fruits",
+      "price": 180,
+      "description": "Sweet and juicy pineapples grown in the warm climate of Thika region",
+      "imageFilename": "pineapples.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 12,
+      "name": "Cashew Nuts",
+      "brand": "Coastal Harvest",
+      "category": "Nuts",
+      "price": 950,
+      "description": "Premium cashew nuts from the Kenyan coast, carefully processed and packed",
+      "imageFilename": "cashew.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 13,
+      "name": "Sugar Cane",
+      "brand": "Mumias Sweet",
+      "category": "Cash Crops",
+      "price": 120,
+      "description": "Fresh sugar cane stalks from the Western Kenya sugar belt",
+      "imageFilename": "sugar_cane.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 14,
+      "name": "Green Peppers",
+      "brand": "Naivasha Fresh",
+      "category": "Vegetables",
+      "price": 160,
+      "description": "Greenhouse-grown green peppers from Naivasha region",
+      "imageFilename": "green_peppers.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 15,
+      "name": "Wheat",
+      "brand": "Narok Plains",
+      "category": "Cereals",
+      "price": 420,
+      "description": "High-quality wheat grown in the vast plains of Narok county",
+      "imageFilename": "wheat.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 16,
+      "name": "Mangoes",
+      "brand": "Malindi Fresh",
+      "category": "Fruits",
+      "price": 250,
+      "description": "Sweet and aromatic mangoes from the coastal region of Malindi",
+      "imageFilename": "mangoes.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 17,
+      "name": "Irish Potatoes",
+      "brand": "Meru Best",
+      "category": "Tubers",
+      "price": 280,
+      "description": "Fresh Irish potatoes grown in the rich volcanic soils of Meru region",
+      "imageFilename": "irish_potatoes.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 18,
+      "name": "Sukuma Wiki",
+      "brand": "Machakos Green",
+      "category": "Vegetables",
+      "price": 50,
+      "description": "Fresh collard greens (sukuma wiki) grown in Machakos county",
+      "imageFilename": "sukuma_wiki.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 19,
+      "name": "Watermelons",
+      "brand": "Tana River Fresh",
+      "category": "Fruits",
+      "price": 300,
+      "description": "Sweet and juicy watermelons grown in the Tana River region",
+      "imageFilename": "watermelons.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 20,
+      "name": "Sorghum",
+      "brand": "Nyanza Grains",
+      "category": "Cereals",
+      "price": 220,
+      "description": "Drought-resistant sorghum grains from the Nyanza region",
+      "imageFilename": "sorghum.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 21,
+      "name": "Tomatoes",
+      "brand": "Kajiado Fresh",
+      "category": "Vegetables",
+      "price": 180,
+      "description": "Fresh, ripe tomatoes grown in Kajiado county's greenhouses",
+      "imageFilename": "tomatoes.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 22,
+      "name": "Green Bananas",
+      "brand": "Kisii Farmers",
+      "category": "Fruits",
+      "price": 350,
+      "description": "Fresh green cooking bananas from the highlands of Kisii",
+      "imageFilename": "green_bananas.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 23,
+      "name": "Pearl Millet",
+      "brand": "Turkana Gold",
+      "category": "Cereals",
+      "price": 280,
+      "description": "Drought-resistant pearl millet from Turkana region",
+      "imageFilename": "pearl_millet.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 24,
+      "name": "Carrots",
+      "brand": "Nyandarua Fresh",
+      "category": "Vegetables",
+      "price": 120,
+      "description": "Sweet, crispy carrots grown in the cool climate of Nyandarua",
+      "imageFilename": "carrots.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 25,
+      "name": "Coconuts",
+      "brand": "Kilifi Fresh",
+      "category": "Fruits",
+      "price": 75,
+      "description": "Fresh coconuts from the coastal region of Kilifi",
+      "imageFilename": "coconuts.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 26,
+      "name": "Cassava",
+      "brand": "Busia Best",
+      "category": "Tubers",
+      "price": 160,
+      "description": "Fresh cassava roots from the fertile soils of Busia region",
+      "imageFilename": "cassava.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 27,
+      "name": "Red Onions",
+      "brand": "Mai Mahiu Fresh",
+      "category": "Vegetables",
+      "price": 200,
+      "description": "Premium red onions grown in the Mai Mahiu region",
+      "imageFilename": "red_onions.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 28,
+      "name": "Groundnuts",
+      "brand": "Siaya Farmers",
+      "category": "Nuts",
+      "price": 450,
+      "description": "Fresh groundnuts grown and processed in Siaya county",
+      "imageFilename": "groundnuts.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 29,
+      "name": "Arrow Roots",
+      "brand": "Kikuyu Valley",
+      "category": "Tubers",
+      "price": 300,
+      "description": "Traditional arrow roots grown in the rich soils of Central Kenya",
+      "imageFilename": "arrow_roots.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 30,
+      "name": "Green Tea",
+      "brand": "Bomet Fresh",
+      "category": "Cash Crops",
+      "price": 550,
+      "description": "Premium green tea leaves from the highlands of Bomet county",
+      "imageFilename": "green_tea.jpg",
+      "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 1731712109864,
+      "name": "Avocado",
+      "brand": "Fuerte",
+      "category": "Fruits",
+      "price": 100,
+      "description": "sweet avocado",
+      "imageFilename": "1731712109860_Screenshot from 2024-11-15 20-12-37.png",
+      "createAt": "2024-11-15T23:08:29.864Z"
+    },
+    {
+      "id": 1731713096242,
+      "name": "Banana",
+      "brand": "Sweet Banana",
+      "category": "Fruits",
+      "price": 10,
+      "description": "Finiest from Kisii",
+      "imageFilename": "1731713096234_Screenshot from 2024-11-15 00-16-31.png",
+      "createAt": "2024-11-15T23:24:56.242Z"
+    },
+    {
+      "id": 1731714782226,
+      "name": "TOEL",
+      "brand": "kamash",
+      "category": "Other",
+      "price": 39.98,
+      "description": "you can do better",
+      "imageFilename": "1731714782223.png",
+      "createAt": "2024-11-15T23:53:02.226Z",
+      "updatedAt": "2024-11-15T23:53:53.034Z"
+    }
+  ]
+}

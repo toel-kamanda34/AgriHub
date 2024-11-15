@@ -1,14 +1,14 @@
-// Navbar.js
 import React from "react";
+import { Link } from "react-router-dom";
 
 export function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg bg-white border-bottom box-shadow ">
       <div className="container">
-        <a className="navbar-brand" href="#section">
+        <Link className="navbar-brand" to="/">
           <img src="/icon.png" alt="..." width="30" className="me-2" />
           AgriHub
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -23,18 +23,14 @@ export function Navbar() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a
-                className="nav-link text-dark"
-                aria-current="page"
-                href="#section"
-              >
+              <Link className="nav-link text-dark" aria-current="page" to="/">
                 Home
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" text-dark href="#section">
+              <Link className="nav-link text-dark " to="/contact">
                 Contact
-              </a>
+              </Link>
             </li>
           </ul>
           <ul className="navbar-nav"></ul>
@@ -50,22 +46,22 @@ export function Navbar() {
             </a>
             <ul className="dropdown-menu">
               <li>
-                <a className="dropdown-item" href="#section">
+                <Link className="dropdown-item" to="/admin/products">
                   Product
-                </a>
+                </Link>
               </li>
               <li>
-                <a className="dropdown-item" href="#section">
+                <Link className="dropdown-item" to="/profile">
                   Profile
-                </a>
+                </Link>
               </li>
               <li>
                 <hr className="dropdown-divider" />
               </li>
               <li>
-                <a className="dropdown-item" href="#section">
-                  Log Out
-                </a>
+                <Link className="dropdown-item" to="/logout">
+                  Logout
+                </Link>
               </li>
             </ul>
           </li>
