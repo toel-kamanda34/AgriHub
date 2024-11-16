@@ -145,14 +145,13 @@ app.get(baseRoutes, (req, res) => {
       }
     });
 
-    // Calculate pagination
+    // Calculate total before pagination
     const totalProducts = products.length;
     const totalPages = Math.ceil(totalProducts / limit);
-    const startIndex = (page - 1) * limit;
-    const endIndex = startIndex + limit;
 
-    // Get paginated products
-    const paginatedProducts = products.slice(startIndex, endIndex);
+    // Apply pagination after sorting
+    const startIndex = (page - 1) * limit;
+    const paginatedProducts = products.slice(startIndex, startIndex + limit);
 
     // Add image URLs to products
     const productsWithImageUrls = paginatedProducts.map((product) => ({
@@ -160,7 +159,7 @@ app.get(baseRoutes, (req, res) => {
       imageUrl: getImageUrl(product.imageFilename),
     }));
 
-    // Send response with pagination metadata
+    // Send response with pagination metadata and total count
     res.json({
       data: {
         products: productsWithImageUrls,
@@ -192,7 +191,7 @@ app.post(baseRoutes, upload.single("image"), validateProduct, (req, res) => {
       price: parseFloat(req.body.price),
       description: req.body.description.trim(),
       imageFilename: req.file ? req.file.filename : null,
-      createdAt: new Date().toISOString(),
+      createAt: new Date().toISOString(),
     };
 
     db.products.push(newProduct);
@@ -236,7 +235,7 @@ const updateHandler = async (req, res) => {
       imageFilename: req.file
         ? req.file.filename
         : currentProduct.imageFilename,
-      updatedAt: new Date().toISOString(),
+      updateAt: new Date().toISOString(),
     };
 
     db.products[productIndex] = updatedProduct;

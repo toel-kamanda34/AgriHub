@@ -24,6 +24,19 @@ export default function ProductList() {
     column: "id",
     orderBy: "desc",
   });
+
+  // Sort function
+  function sortTable(column) {
+    let orderBy = "desc";
+
+    if (column === sortColumn.column) {
+      // reverse orderBy
+      orderBy = sortColumn.orderBy === "asc" ? "desc" : "asc";
+    }
+    setSortColumn({ column, orderBy });
+    setCurrentPage(1); // Reset to first page when sorting
+  }
+
   // Function to handle client-side pagination
   const paginateData = useCallback(
     (products, page) => {
@@ -37,17 +50,8 @@ export default function ProductList() {
   const getProducts = useCallback(async () => {
     setIsLoading(true);
     try {
-      const url =
-        `${API_BASE_URL}/products?_ page=` +
-        currentPage +
-        "&_limit=" +
-        pageSize +
-        "&q=" +
-        search +
-        "&_sort=" +
-        sortColumn.column +
-        "&_order=" +
-        sortColumn.orderBy;
+      const url = `${API_BASE_URL}/products?_page=${currentPage}&_limit=${pageSize}&q=${search}&_sort=${sortColumn.column}&_order=${sortColumn.orderBy}`;
+
       console.log("Fetching URL:", url);
       const response = await fetch(url);
 
@@ -58,36 +62,22 @@ export default function ProductList() {
       const responseData = await response.json();
       console.log("Received data:", responseData);
 
-      // Handle both nested and flat data structures
-      let products = [];
-      if (Array.isArray(responseData)) {
-        products = responseData;
-      } else if (
-        responseData.data &&
-        Array.isArray(responseData.data.products)
-      ) {
-        products = responseData.data.products;
+      if (responseData.data && Array.isArray(responseData.data.products)) {
+        // Update the products
+        setDisplayedProducts(responseData.data.products);
+
+        // Update pagination info from server response
+        const { pagination } = responseData.data;
+        setTotalPages(pagination.totalPages);
+        setPaginationInfo({
+          totalProducts: pagination.totalProducts,
+          hasNextPage: pagination.hasNextPage,
+          hasPrevPage: pagination.hasPrevPage,
+        });
       }
-
-      // Store all products
-      setAllProducts(products);
-
-      // Calculate pagination info
-      const total = products.length;
-      const calculatedTotalPages = Math.ceil(total / pageSize);
-      setTotalPages(calculatedTotalPages);
-      setPaginationInfo({
-        totalProducts: total,
-        hasNextPage: currentPage < calculatedTotalPages,
-        hasPrevPage: currentPage > 1,
-      });
-
-      // Set displayed products based on current page
-      setDisplayedProducts(paginateData(products, currentPage));
     } catch (error) {
       console.error("Error fetching products:", error);
       alert("Unable to get the data");
-      setAllProducts([]);
       setDisplayedProducts([]);
       setTotalPages(1);
       setPaginationInfo({
@@ -98,24 +88,22 @@ export default function ProductList() {
     } finally {
       setIsLoading(false);
     }
-  }, [currentPage, pageSize, paginateData, search]);
-
+  }, [currentPage, pageSize, search, sortColumn.column, sortColumn.orderBy]);
   // Update displayed products when page changes
-  useEffect(() => {
-    if (allProducts.length > 0) {
-      setDisplayedProducts(paginateData(allProducts, currentPage));
-      setPaginationInfo((prev) => ({
-        ...prev,
-        hasNextPage: currentPage < totalPages,
-        hasPrevPage: currentPage > 1,
-      }));
-    }
-  }, [currentPage, allProducts, totalPages, paginateData, sortColumn]);
+  // useEffect(() => {
+  //   if (allProducts.length > 0) {
+  //     setDisplayedProducts(paginateData(allProducts, currentPage));
+  //     setPaginationInfo((prev) => ({
+  //       ...prev,
+  //       hasNextPage: currentPage < totalPages,
+  //       hasPrevPage: currentPage > 1,
+  //     }));
+  //   }
+  // }, [currentPage, allProducts, totalPages, paginateData, sortColumn]);
 
   useEffect(() => {
     getProducts();
-  }, [getProducts]);
-
+  }, [getProducts, sortColumn]);
   const deleteProduct = async (id) => {
     try {
       const response = await fetch(`${API_BASE_URL}/products/${id}`, {
@@ -387,7 +375,7 @@ export default function ProductList() {
                         />
                       )}
                     </td>
-                    <td>{product.createdAt?.slice(0, 10)}</td>
+                    <td>{product.createAt?.slice(0, 10)}</td>
                     <td style={{ width: "10px", whiteSpace: "nowrap" }}>
                       <Link
                         className="btn btn-primary btn-sm me-1"
@@ -453,12 +441,15 @@ export default function ProductList() {
   );
 }
 
+// SortArrow component
 function SortArrow({ column, sortColumn, orderBy }) {
-  if (column !== sortColumn) return null;
-
-  if (orderBy === "asc") {
-    return <i className="bi bi-arrow-up"> </i>;
+  if (column !== sortColumn) {
+    return <i className="bi bi-arrow-down-up"></i>; // default unsorted state
   }
 
-  return <i className="bi bi-arrow-down"> </i>;
+  if (orderBy === "asc") {
+    return <i className="bi bi-arrow-up"></i>;
+  }
+
+  return <i className="bi bi-arrow-down"></i>;
 }
