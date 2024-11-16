@@ -1,27 +1,6 @@
 {
   "products": [
     {
-      "id": 1,
-      "name": "Arabica Coffee",
-      "brand": "Mount Kenya",
-      "category": "Other",
-      "price": 850,
-      "description": "Premium grade Arabica coffee beans grown at high altitude in Mount Kenya region, known for rich flavor and medium acidity.Yes",
-      "imageFilename": "arabica_coffee.jpg",
-      "createAt": "2024-01-13T17:46:54.890000",
-      "updatedAt": "2024-11-15T23:42:58.003Z"
-    },
-    {
-      "id": 2,
-      "name": "Black Tea",
-      "brand": "Kericho Gold",
-      "category": "Cash Crops",
-      "price": 450,
-      "description": "Premium black tea leaves harvested from the lush Kericho highlands, perfect for traditional or milk tea",
-      "imageFilename": "black_tea.jpg",
-      "createAt": "2024-01-13T17:46:54.890000"
-    },
-    {
       "id": 3,
       "name": "Green Maize",
       "brand": "Rift Valley Fresh",
@@ -301,37 +280,6 @@
       "description": "Premium green tea leaves from the highlands of Bomet county",
       "imageFilename": "green_tea.jpg",
       "createAt": "2024-01-13T17:46:54.890000"
-    },
-    {
-      "id": 1731712109864,
-      "name": "Avocado",
-      "brand": "Fuerte",
-      "category": "Fruits",
-      "price": 100,
-      "description": "sweet avocado",
-      "imageFilename": "1731712109860_Screenshot from 2024-11-15 20-12-37.png",
-      "createAt": "2024-11-15T23:08:29.864Z"
-    },
-    {
-      "id": 1731713096242,
-      "name": "Banana",
-      "brand": "Sweet Banana",
-      "category": "Fruits",
-      "price": 10,
-      "description": "Finiest from Kisii",
-      "imageFilename": "1731713096234_Screenshot from 2024-11-15 00-16-31.png",
-      "createAt": "2024-11-15T23:24:56.242Z"
-    },
-    {
-      "id": 1731714782226,
-      "name": "TOEL",
-      "brand": "kamash",
-      "category": "Other",
-      "price": 39.98,
-      "description": "you can do better",
-      "imageFilename": "1731714782223.png",
-      "createAt": "2024-11-15T23:53:02.226Z",
-      "updatedAt": "2024-11-15T23:53:53.034Z"
     }
   ]
 }

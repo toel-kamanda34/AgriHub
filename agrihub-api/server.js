@@ -5,29 +5,28 @@ const fs = require("fs");
 const path = require("path");
 const app = express();
 
+// Constants
+const PORT = 4000;
+const UPLOAD_DIR = path.join(__dirname, "public", "images");
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+
 // Middleware setup
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files
+// Static file serving
 app.use(express.static(path.join(__dirname)));
-app.use(
-  "/public/images",
-  express.static(path.join(__dirname, "public/images"))
-);
+app.use("/public/images", express.static(UPLOAD_DIR));
 
-// Create required directories
-const uploadDir = path.join(__dirname, "public", "images");
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
+// Ensure upload directory exists
+if (!fs.existsSync(UPLOAD_DIR)) {
+  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 }
 
-// Multer configuration
+// Multer storage configuration
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/images");
-  },
+  destination: (req, file, cb) => cb(null, UPLOAD_DIR),
   filename: (req, file, cb) => {
     const timestamp = Date.now();
     const ext = path.extname(file.originalname);
@@ -38,18 +37,15 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({
-  storage: storage,
+  storage,
   fileFilter: (req, file, cb) => {
-    // Allow only image files
     if (file.mimetype.startsWith("image/")) {
       cb(null, true);
     } else {
       cb(new Error("Only image files are allowed!"), false);
     }
   },
-  limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB limit
-  },
+  limits: { fileSize: MAX_FILE_SIZE },
 });
 
 // Database operations
@@ -73,8 +69,9 @@ const validateProduct = (req, res, next) => {
   if (!req.body.brand?.trim()) errors.brand = "Brand is required";
   if (!req.body.category?.trim()) errors.category = "Category is required";
   if (!req.body.price) errors.price = "Price is required";
-  if (req.body.price && parseFloat(req.body.price) < 1)
+  if (req.body.price && parseFloat(req.body.price) < 1) {
     errors.price = "Price must be at least 1";
+  }
   if (!req.body.description?.trim())
     errors.description = "Description is required";
 
@@ -85,13 +82,25 @@ const validateProduct = (req, res, next) => {
   next();
 };
 
-// Helper function to generate image URL
+// Helper functions
 const getImageUrl = (filename) => {
-  return filename ? `http://localhost:4000/public/images/${filename}` : null;
+  return filename ? `http://localhost:${PORT}/public/images/${filename}` : null;
+};
+
+const deleteImageFile = (filename) => {
+  if (filename) {
+    const imagePath = path.join(UPLOAD_DIR, filename);
+    if (fs.existsSync(imagePath)) {
+      fs.unlinkSync(imagePath);
+    }
+  }
 };
 
 // Routes
-app.get(["/products", "/api/products"], (req, res) => {
+const baseRoutes = ["/products", "/api/products"];
+
+// GET all products
+app.get(baseRoutes, (req, res) => {
   try {
     const db = getDb();
     const productsWithImageUrls = db.products.map((product) => ({
@@ -104,7 +113,8 @@ app.get(["/products", "/api/products"], (req, res) => {
   }
 });
 
-app.get(["/products/:id", "/api/products/:id"], (req, res) => {
+// GET single product
+app.get([...baseRoutes.map((route) => `${route}/:id`)], (req, res) => {
   try {
     const db = getDb();
     const product = db.products.find((p) => p.id === parseInt(req.params.id));
@@ -122,38 +132,34 @@ app.get(["/products/:id", "/api/products/:id"], (req, res) => {
   }
 });
 
-app.post(
-  ["/products", "/api/products"],
-  upload.single("image"),
-  validateProduct,
-  (req, res) => {
-    try {
-      const db = getDb();
-      const newProduct = {
-        id: Date.now(),
-        name: req.body.name.trim(),
-        brand: req.body.brand.trim(),
-        category: req.body.category,
-        price: parseFloat(req.body.price),
-        description: req.body.description.trim(),
-        imageFilename: req.file ? req.file.filename : null,
-        createAt: new Date().toISOString(),
-      };
+// POST new product
+app.post(baseRoutes, upload.single("image"), validateProduct, (req, res) => {
+  try {
+    const db = getDb();
+    const newProduct = {
+      id: Date.now(),
+      name: req.body.name.trim(),
+      brand: req.body.brand.trim(),
+      category: req.body.category,
+      price: parseFloat(req.body.price),
+      description: req.body.description.trim(),
+      imageFilename: req.file ? req.file.filename : null,
+      createdAt: new Date().toISOString(),
+    };
 
-      db.products.push(newProduct);
-      saveDb(db);
+    db.products.push(newProduct);
+    saveDb(db);
 
-      res.status(201).json({
-        ...newProduct,
-        imageUrl: getImageUrl(newProduct.imageFilename),
-      });
-    } catch (error) {
-      res.status(500).json({ error: "Failed to create product" });
-    }
+    res.status(201).json({
+      ...newProduct,
+      imageUrl: getImageUrl(newProduct.imageFilename),
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to create product" });
   }
-);
+});
 
-// Handle both PATCH and PUT requests for updating products
+// UPDATE product (PATCH/PUT)
 const updateHandler = async (req, res) => {
   try {
     const db = getDb();
@@ -169,16 +175,9 @@ const updateHandler = async (req, res) => {
 
     // Handle image update
     if (req.file) {
-      // Delete old image if it exists
-      if (currentProduct.imageFilename) {
-        const oldImagePath = path.join(uploadDir, currentProduct.imageFilename);
-        if (fs.existsSync(oldImagePath)) {
-          fs.unlinkSync(oldImagePath);
-        }
-      }
+      deleteImageFile(currentProduct.imageFilename);
     }
 
-    // Update product
     const updatedProduct = {
       ...currentProduct,
       name: req.body.name?.trim() || currentProduct.name,
@@ -206,17 +205,43 @@ const updateHandler = async (req, res) => {
 
 // Support both PATCH and PUT methods
 app.patch(
-  ["/products/:id", "/api/products/:id"],
+  [...baseRoutes.map((route) => `${route}/:id`)],
   upload.single("image"),
   validateProduct,
   updateHandler
 );
 app.put(
-  ["/products/:id", "/api/products/:id"],
+  [...baseRoutes.map((route) => `${route}/:id`)],
   upload.single("image"),
   validateProduct,
   updateHandler
 );
+
+// DELETE product
+app.delete([...baseRoutes.map((route) => `${route}/:id`)], (req, res) => {
+  try {
+    const db = getDb();
+    const productIndex = db.products.findIndex(
+      (p) => p.id === parseInt(req.params.id)
+    );
+
+    if (productIndex === -1) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    // Delete associated image file
+    const product = db.products[productIndex];
+    deleteImageFile(product.imageFilename);
+
+    // Remove product from database
+    db.products.splice(productIndex, 1);
+    saveDb(db);
+
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ error: "Failed to delete product" });
+  }
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -237,7 +262,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = 4000;
+// Start server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
   console.log(

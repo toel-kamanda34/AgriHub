@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 export default function ProductList() {
   const [products, setProducts] = useState([]);
 
+  //pagination functionality
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const pageSize = 5;
   function getProducts() {
     fetch("http://localhost:4000/products")
       .then((response) => {
@@ -22,6 +26,21 @@ export default function ProductList() {
 
   useEffect(getProducts, []);
 
+  function deleteProduct(id) {
+    fetch("http://localhost:4000/products/" + id, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error();
+        }
+
+        getProducts();
+      })
+      .catch((error) => {
+        alert("Unable to delete the product");
+      });
+  }
   return (
     <div className="container my-4">
       <h2 className="text-center mb-4">Products</h2>
@@ -98,7 +117,11 @@ export default function ProductList() {
                   >
                     Edit
                   </Link>
-                  <button type="button" className="btn btn-danger btn-sm">
+                  <button
+                    type="button"
+                    className="btn btn-danger btn-sm"
+                    onClick={() => deleteProduct(product.id)}
+                  >
                     Delete
                   </button>
                 </td>
