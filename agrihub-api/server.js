@@ -99,36 +99,84 @@ const deleteImageFile = (filename) => {
 // Routes
 const baseRoutes = ["/products", "/api/products"];
 
-// GET all products
+// Replace your existing GET products endpoint with this one
 app.get(baseRoutes, (req, res) => {
   try {
-    const db = getDb();
-    const productsWithImageUrls = db.products.map((product) => ({
+    // Get query parameters
+    const page = parseInt(req.query._page) || 1;
+    const limit = parseInt(req.query._limit) || 5;
+    const search = req.query.q || "";
+    const sortColumn = req.query._sort || "id";
+    const sortOrder = req.query._order || "desc";
+
+    let db = getDb();
+    let products = [...db.products]; // Create a copy to work with
+
+    // Apply search filter if search term exists
+    if (search) {
+      products = products.filter(
+        (product) =>
+          product.name.toLowerCase().includes(search.toLowerCase()) ||
+          product.brand.toLowerCase().includes(search.toLowerCase()) ||
+          product.category.toLowerCase().includes(search.toLowerCase()) ||
+          product.description?.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    // Apply sorting
+    products.sort((a, b) => {
+      let aValue = a[sortColumn];
+      let bValue = b[sortColumn];
+
+      // Handle numeric values
+      if (sortColumn === "price" || sortColumn === "id") {
+        aValue = Number(aValue);
+        bValue = Number(bValue);
+      } else {
+        // Convert to lowercase strings for string comparison
+        aValue = String(aValue).toLowerCase();
+        bValue = String(bValue).toLowerCase();
+      }
+
+      if (sortOrder.toLowerCase() === "asc") {
+        return aValue > bValue ? 1 : -1;
+      } else {
+        return aValue < bValue ? 1 : -1;
+      }
+    });
+
+    // Calculate pagination
+    const totalProducts = products.length;
+    const totalPages = Math.ceil(totalProducts / limit);
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+
+    // Get paginated products
+    const paginatedProducts = products.slice(startIndex, endIndex);
+
+    // Add image URLs to products
+    const productsWithImageUrls = paginatedProducts.map((product) => ({
       ...product,
       imageUrl: getImageUrl(product.imageFilename),
     }));
-    res.json(productsWithImageUrls);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to fetch products" });
-  }
-});
 
-// GET single product
-app.get([...baseRoutes.map((route) => `${route}/:id`)], (req, res) => {
-  try {
-    const db = getDb();
-    const product = db.products.find((p) => p.id === parseInt(req.params.id));
-
-    if (!product) {
-      return res.status(404).json({ message: "Product not found" });
-    }
-
+    // Send response with pagination metadata
     res.json({
-      ...product,
-      imageUrl: getImageUrl(product.imageFilename),
+      data: {
+        products: productsWithImageUrls,
+        pagination: {
+          currentPage: page,
+          totalPages,
+          totalProducts,
+          hasNextPage: page < totalPages,
+          hasPrevPage: page > 1,
+          limit,
+        },
+      },
     });
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch product" });
+    console.error("Error in GET products:", error);
+    res.status(500).json({ error: "Failed to fetch products" });
   }
 });
 

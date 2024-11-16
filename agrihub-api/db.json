@@ -1,16 +1,6 @@
 {
   "products": [
     {
-      "id": 3,
-      "name": "Green Maize",
-      "brand": "Rift Valley Fresh",
-      "category": "Cereals",
-      "price": 180,
-      "description": "Fresh green maize grown in the fertile Rift Valley region, ideal for roasting or boiling",
-      "imageFilename": "green_maize.jpg",
-      "createAt": "2024-01-13T17:46:54.890000"
-    },
-    {
       "id": 4,
       "name": "Macadamia Nuts",
       "brand": "Embu Farms",
@@ -249,16 +239,6 @@
       "price": 200,
       "description": "Premium red onions grown in the Mai Mahiu region",
       "imageFilename": "red_onions.jpg",
-      "createAt": "2024-01-13T17:46:54.890000"
-    },
-    {
-      "id": 28,
-      "name": "Groundnuts",
-      "brand": "Siaya Farmers",
-      "category": "Nuts",
-      "price": 450,
-      "description": "Fresh groundnuts grown and processed in Siaya county",
-      "imageFilename": "groundnuts.jpg",
       "createAt": "2024-01-13T17:46:54.890000"
     },
     {
