@@ -108,10 +108,25 @@ app.get(baseRoutes, (req, res) => {
     const search = req.query.q || "";
     const sortColumn = req.query._sort || "id";
     const sortOrder = req.query._order || "desc";
+    const category = req.query.category;
+    const brand = req.query.brand;
 
     let db = getDb();
     let products = [...db.products]; // Create a copy to work with
 
+    // Apply category filter if category parameter exists
+    if (category) {
+      products = products.filter(
+        (product) => product.category.toLowerCase() === category.toLowerCase()
+      );
+    }
+
+    // Apply brand filter if brand parameter exists
+    if (brand) {
+      products = products.filter(
+        (product) => product.brand.toLowerCase() === brand.toLowerCase()
+      );
+    }
     // Apply search filter if search term exists
     if (search) {
       products = products.filter(
