@@ -95,6 +95,24 @@ const deleteImageFile = (filename) => {
     }
   }
 };
+app.get("/products/:id", (req, res) => {
+  try {
+    const db = getDb();
+    const product = db.products.find((p) => p.id === parseInt(req.params.id));
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.json({
+      ...product,
+      imageUrl: getImageUrl(product.imageFilename),
+    });
+  } catch (error) {
+    console.error("Error fetching single product:", error);
+    res.status(500).json({ error: "Failed to fetch product" });
+  }
+});
 
 // Routes
 const baseRoutes = ["/products", "/api/products"];
@@ -113,6 +131,7 @@ app.get(baseRoutes, (req, res) => {
 
     let db = getDb();
     let products = [...db.products]; // Create a copy to work with
+    // Check if we're requesting a single product
 
     // Apply category filter if category parameter exists
     if (category) {

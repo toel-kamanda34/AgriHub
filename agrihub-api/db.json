@@ -260,6 +260,16 @@
       "description": "Premium green tea leaves from the highlands of Bomet county",
       "imageFilename": "green_tea.jpg",
       "createAt": "2024-01-13T17:46:54.890000"
+    },
+    {
+      "id": 1731842000590,
+      "name": "Avocado",
+      "brand": "Fuerte",
+      "category": "Fruits",
+      "price": 100,
+      "description": "sweet avocado",
+      "imageFilename": "1731842000579.png",
+      "createAt": "2024-11-17T11:13:20.590Z"
     }
   ]
 }
