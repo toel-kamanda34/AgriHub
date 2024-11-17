@@ -1,4 +1,25 @@
 {
+  "users": [
+    {
+      "email": "toelokemwa@gmail.com",
+      "password": "$2a$10$jfxV0pKaDFiIL5fkh28IOeH1UxKORK4V40giZBXfRMA2AmmGdS/nC",
+      "firstname": "Toel",
+      "lastname": "OKEMWA",
+      "phone": "0743231997",
+      "address": "Tecla Lorupe",
+      "id": 1,
+      "role": "admin"
+    },
+    {
+      "email": "Mark@gmail.com",
+      "password": "$2a$10$nxEJeg0LRWINWzLA8bLRs.2pGJkRHQQgLC6fLhBQsoLvWv.DW1Hsi",
+      "firstname": "Elliud",
+      "lastname": "Mark",
+      "phone": "",
+      "address": "",
+      "id": 2
+    }
+  ],
   "products": [
     {
       "id": 4,

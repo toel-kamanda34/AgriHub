@@ -7,6 +7,7 @@ export default function EditProduct() {
   const [initialData, setInitialData] = useState();
 
   const [validationErrors, setValidationErrors] = useState({});
+
   const navigate = useNavigate();
 
   function getProduct() {

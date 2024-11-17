@@ -1,19 +1,29 @@
 const express = require("express");
+const jsonServer = require("json-server");
+const auth = require("json-server-auth");
 const multer = require("multer");
 const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
-const app = express();
 
 // Constants
 const PORT = 4000;
 const UPLOAD_DIR = path.join(__dirname, "public", "images");
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
+// Create express app and json-server router
+const app = express();
+const router = jsonServer.router("db.json");
+const middlewares = jsonServer.defaults();
+
+// /!\ Bind the router db to the app
+
+app.db = router.db;
 // Middleware setup
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(middlewares);
 
 // Static file serving
 app.use(express.static(path.join(__dirname)));
@@ -47,6 +57,16 @@ const upload = multer({
   },
   limits: { fileSize: MAX_FILE_SIZE },
 });
+
+// Auth rules
+const rules = auth.rewriter({
+  users: 660,
+  products: 664, // Allow read for all, write for authenticated users
+});
+
+// Apply authentication rules before routes
+app.use(rules);
+app.use(auth);
 
 // Database operations
 const getDb = () => {
@@ -342,7 +362,9 @@ app.use((err, req, res, next) => {
     error: process.env.NODE_ENV === "development" ? err.message : undefined,
   });
 });
+app.use(router);
 
+app.use(auth);
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

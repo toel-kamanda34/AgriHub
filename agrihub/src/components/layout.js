@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AppContext } from "../AppContext";
 
 export function Navbar() {
+  const { userCredentials, setUserCredentials } = useContext(AppContext);
+
   return (
     <nav className="navbar navbar-expand-lg bg-white border-bottom box-shadow ">
       <div className="container">
@@ -33,38 +36,103 @@ export function Navbar() {
               </Link>
             </li>
           </ul>
-          <ul className="navbar-nav"></ul>
-          <li className="nav-item dropdown">
-            <a
-              className="nav-link dropdown-toggle text-dark"
-              href="#section"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Admin
-            </a>
-            <ul className="dropdown-menu">
-              <li>
-                <Link className="dropdown-item" to="/admin/products">
-                  Product
+          {userCredentials && userCredentials.user.role === "admin" && (
+            <ul className="navbar-nav">
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle text-dark"
+                  href="#section"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Admin
+                </a>
+                <ul className="dropdown-menu">
+                  <li>
+                    <Link className="dropdown-item" to="/admin/products">
+                      Product
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/profile">
+                      Profile
+                    </Link>
+                  </li>
+                  <li>
+                    <hr className="dropdown-divider" />
+                  </li>
+                  <li>
+                    <Link
+                      className="dropdown-item"
+                      onClick={() => setUserCredentials(null)}
+                      to="/"
+                    >
+                      Logout
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          )}
+
+          {userCredentials && userCredentials.user.role !== "admin" && (
+            <ul className="navbar-nav">
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle text-dark"
+                  href="#section"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Client
+                </a>
+                <ul className="dropdown-menu">
+                  <li>
+                    <Link className="dropdown-item" to="/profile">
+                      Profile
+                    </Link>
+                  </li>
+                  <li>
+                    <hr className="dropdown-divider" />
+                  </li>
+                  <li>
+                    <Link
+                      className="dropdown-item"
+                      onClick={() => setUserCredentials(null)}
+                      to="/"
+                    >
+                      Logout
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          )}
+
+          {!userCredentials && (
+            <ul className="navbar-nav">
+              <li className="nav-item">
+                <Link
+                  className="btn btn-outline-primary me-2"
+                  to="/auth/register"
+                  role="button"
+                >
+                  Register
                 </Link>
               </li>
-              <li>
-                <Link className="dropdown-item" to="/profile">
-                  Profile
-                </Link>
-              </li>
-              <li>
-                <hr className="dropdown-divider" />
-              </li>
-              <li>
-                <Link className="dropdown-item" to="/logout">
-                  Logout
+              <li className="nav-item">
+                <Link
+                  className="btn btn-primary "
+                  to="/auth/login"
+                  role="button"
+                >
+                  Login
                 </Link>
               </li>
             </ul>
-          </li>
+          )}
         </div>
       </div>
     </nav>
