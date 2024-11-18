@@ -55,6 +55,11 @@ export function Navbar() {
                     </Link>
                   </li>
                   <li>
+                    <Link className="dropdown-item" to="/admin/users">
+                      User
+                    </Link>
+                  </li>
+                  <li>
                     <Link className="dropdown-item" to="/profile">
                       Profile
                     </Link>
