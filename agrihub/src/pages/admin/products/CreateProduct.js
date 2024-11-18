@@ -1,8 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AppContext } from "../../../AppContext";
 
 export default function CreateProduct() {
   const [validationErrors, setValidationErrors] = useState({});
+
+  const { userCredentials, setUserCredentials } = useContext(AppContext);
   const navigate = useNavigate();
 
   async function handleSubmit(event) {
@@ -26,6 +29,9 @@ export default function CreateProduct() {
     try {
       const response = await fetch("http://localhost:4000/products", {
         method: "POST",
+        headers: {
+          Authorization: "Bearer " + userCredentials.accessToken,
+        },
         body: formData,
       });
 
@@ -35,6 +41,9 @@ export default function CreateProduct() {
         navigate("/admin/products");
       } else if (response.status === 400) {
         setValidationErrors(data);
+      } else if (response.status === 401) {
+        // disconnect the user
+        setUserCredentials(null);
       } else {
         alert("Unable to create the product!");
       }

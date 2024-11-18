@@ -1,10 +1,15 @@
-import { useEffect, useState, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState, useCallback, useContext } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { AppContext } from "../../../AppContext";
 
 const API_BASE_URL = "http://localhost:4000";
 
 export default function ProductList() {
   const [allProducts, setAllProducts] = useState([]); // Store all products
+
+  const { userCredentials, setUserCredentials } = useContext(AppContext);
+
+  const navigate = useNavigate();
   const [displayedProducts, setDisplayedProducts] = useState([]); // Store paginated products
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -104,12 +109,21 @@ export default function ProductList() {
   useEffect(() => {
     getProducts();
   }, [getProducts, sortColumn]);
+
   const deleteProduct = async (id) => {
     try {
       const response = await fetch(`${API_BASE_URL}/products/${id}`, {
         method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + userCredentials.accessToken,
+        },
       });
+      if (response.status === 401) {
+        setUserCredentials(null);
 
+        navigate("/auth/login");
+        return;
+      }
       if (!response.ok) {
         throw new Error("Failed to delete product");
       }

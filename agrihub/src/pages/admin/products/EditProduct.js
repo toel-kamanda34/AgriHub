@@ -1,5 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "../../../AppContext";
 
 export default function EditProduct() {
   const params = useParams();
@@ -7,6 +8,8 @@ export default function EditProduct() {
   const [initialData, setInitialData] = useState();
 
   const [validationErrors, setValidationErrors] = useState({});
+
+  const { userCredentials, setUserCredentials } = useContext(AppContext);
 
   const navigate = useNavigate();
 
@@ -51,6 +54,9 @@ export default function EditProduct() {
         "http://localhost:4000/products/" + params.id,
         {
           method: "PATCH",
+          headers: {
+            Authorization: "Bearer " + userCredentials.accessToken,
+          },
           body: formData,
         }
       );
@@ -62,6 +68,9 @@ export default function EditProduct() {
         navigate("/admin/products");
       } else if (response.status === 400) {
         setValidationErrors(data);
+      } else if (response.status === 401) {
+        // disconnect the user
+        setUserCredentials(null);
       } else {
         alert("Unable to update the product!");
       }

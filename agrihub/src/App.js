@@ -11,7 +11,8 @@ import ProductDetails from "./pages/ProductDetails";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
 import { AppContext } from "./AppContext";
-import { AdminRoute } from "./components/authorization";
+import { AdminRoute, AuthenticatedUserRoute } from "./components/authorization";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
   function getStoredCredentials() {
@@ -43,6 +44,15 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/products/:id" element={<ProductDetails />} />
+
+          <Route
+            path="/profile"
+            element={
+              <AuthenticatedUserRoute>
+                <UserProfile />
+              </AuthenticatedUserRoute>
+            }
+          />
 
           <Route path="/auth/register" element={<Register />} />
           <Route path="/auth/login" element={<Login />} />
