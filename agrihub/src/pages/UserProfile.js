@@ -1,8 +1,10 @@
 import { useContext, useState } from "react";
 import { AppContext } from "../AppContext";
+import { useNavigate } from "react-router-dom";
 
 export default function UserProfile() {
   const [action, setAction] = useState("default");
+
   return (
     <div className="container my-4">
       <div className="row">
@@ -34,6 +36,7 @@ export default function UserProfile() {
             <h2 className="mb-3 text-center">Update Profile</h2>
 
             <hr />
+            <UpdateProfile />
             <hr />
 
             <div className="text-center">
@@ -106,5 +109,122 @@ function Details() {
         </div>
       </div>
     </>
+  );
+}
+//start with handle submit
+function UpdateProfile() {
+  const { userCredentials, setUserCredentials } = useContext(AppContext);
+
+  const navigate = useNavigate();
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+
+    const user = Object.fromEntries(formData.entries());
+
+    if (!user.firstname || !user.lastname || !user.email) {
+      alert("Please fill all the required fields!");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        "http://localhost:4000/users/" + userCredentials.user.id,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + userCredentials.accessToken,
+          },
+          body: JSON.stringify(user),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("User Profile updated correctly!");
+        console.log("server response: ", data);
+        setUserCredentials({ ...userCredentials, user: data });
+      } else if (response.status === 401) {
+        //unauthorized response
+        setUserCredentials(null);
+        navigate("/auth/login");
+      } else {
+        alert("Unable to update the profile" + data);
+      }
+    } catch (error) {
+      alert("Unable to connect to the server");
+    }
+  }
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="row mb-3">
+        <label className="col-sm-4 col-form-label">First Name *</label>
+
+        <div className="col-sm-8">
+          <input
+            className="form-control"
+            name="firstname"
+            defaultValue={userCredentials.user.firstname}
+          />
+        </div>
+      </div>
+
+      <div className="row mb-3">
+        <label className="col-sm-4 col-form-label">Last Name *</label>
+
+        <div className="col-sm-8">
+          <input
+            className="form-control"
+            name="lastname"
+            defaultValue={userCredentials.user.lastname}
+          />
+        </div>
+      </div>
+
+      <div className="row mb-3">
+        <label className="col-sm-4 col-form-label">Email *</label>
+
+        <div className="col-sm-8">
+          <input
+            className="form-control"
+            name="email"
+            defaultValue={userCredentials.user.email}
+          />
+        </div>
+      </div>
+
+      <div className="row mb-3">
+        <label className="col-sm-4 col-form-label">Phone</label>
+
+        <div className="col-sm-8">
+          <input
+            className="form-control"
+            name="phone"
+            defaultValue={userCredentials.user.phone}
+          />
+        </div>
+      </div>
+
+      <div className="row mb-3">
+        <label className="col-sm-4 col-form-label">Address</label>
+
+        <div className="col-sm-8">
+          <input
+            className="form-control"
+            name="address"
+            defaultValue={userCredentials.user.address}
+          />
+        </div>
+      </div>
+
+      <div className="text-end">
+        <button type="submit" className="btn btn-primary">
+          Submit
+        </button>
+      </div>
+    </form>
   );
 }
