@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { AppContext } from "../AppContext";
 import { useNavigate } from "react-router-dom";
+import { joinPaths } from "@remix-run/router";
 
 export default function UserProfile() {
   const [action, setAction] = useState("default");
@@ -56,6 +57,7 @@ export default function UserProfile() {
             <h2 className="mb-3 text-center">Update Password</h2>
 
             <hr />
+            <UpdatePassword />
             <hr />
 
             <div className="text-center">
@@ -222,6 +224,84 @@ function UpdateProfile() {
 
       <div className="text-end">
         <button type="submit" className="btn btn-primary">
+          Submit
+        </button>
+      </div>
+    </form>
+  );
+}
+
+function UpdatePassword() {
+  const { userCredentials, setUserCredentials } = useContext(AppContext);
+
+  const navigate = useNavigate();
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const password = event.target.password.value;
+    const confirm_password = event.target.confirm_password.value;
+
+    if (!password) {
+      alert("Please fill the new password");
+      return;
+    }
+
+    if (password !== confirm_password) {
+      alert("Password and Confirm password do not match");
+      return;
+    }
+
+    const passwordObj = { password };
+
+    try {
+      const response = await fetch(
+        "http://localhost:4000/users/" + userCredentials.user.id,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + userCredentials.accessToken,
+          },
+          body: JSON.stringify(passwordObj),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Password updated correctly");
+        console.log("server response: ", data);
+      } else if (response.status === 401) {
+        //unauthorized response
+        setUserCredentials(null);
+        navigate("/auth/login");
+      } else {
+        alert("Unacle to update the password: ", data);
+      }
+    } catch (error) {
+      alert("Unable to connect to the server");
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="mb-3">
+        <label className="form-label">New Password *</label>
+        <input className="form-control" name="password" type="password" />
+      </div>
+
+      <div className="mb-3">
+        <label className="form-label">Confirm Password *</label>
+        <input
+          className="form-control"
+          name="confirm_password"
+          type="password"
+        />
+      </div>
+
+      <div className="text-end">
+        <button type="submit" className="btn btn-warning">
           Submit
         </button>
       </div>
